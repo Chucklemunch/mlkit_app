@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Charlie\\RepRecognitionStuff\\vision-quickstart\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hdpi-v4\\values-hdpi-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Charlie\\.gradle\\caches\\transforms-3\\4f1c560e82125ca5c25836762262f807\\transformed\\appcompat-1.2.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "source": "C:\\Program Files\\Gradle\\gradle-7.5.1\\caches\\transforms-3\\4f1c560e82125ca5c25836762262f807\\transformed\\appcompat-1.2.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
