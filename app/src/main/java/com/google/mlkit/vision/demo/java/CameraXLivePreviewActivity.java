@@ -285,6 +285,7 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
     cameraProvider.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector, previewUseCase);
   }
 
+
   private void bindAnalysisUseCase() {
     if (cameraProvider == null) {
       return;

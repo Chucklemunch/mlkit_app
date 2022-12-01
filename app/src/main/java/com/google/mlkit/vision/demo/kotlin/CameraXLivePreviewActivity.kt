@@ -17,25 +17,20 @@
 package com.google.mlkit.vision.demo.kotlin
 
 import android.content.Intent
+import android.graphics.Camera
+import android.hardware.camera2.CameraCaptureSession
+import android.media.MediaRecorder
+import android.net.Uri
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.Toast
-import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
-import androidx.camera.core.CameraInfoUnavailableException
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -44,10 +39,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.annotation.KeepName
 import com.google.mlkit.common.MlKitException
 import com.google.mlkit.common.model.LocalModel
-import com.google.mlkit.vision.demo.CameraXViewModel
-import com.google.mlkit.vision.demo.GraphicOverlay
+import com.google.mlkit.vision.demo.*
 import com.google.mlkit.vision.demo.R
-import com.google.mlkit.vision.demo.VisionImageProcessor
 import com.google.mlkit.vision.demo.kotlin.barcodescanner.BarcodeScannerProcessor
 import com.google.mlkit.vision.demo.kotlin.facedetector.FaceDetectorProcessor
 import com.google.mlkit.vision.demo.kotlin.labeldetector.LabelDetectorProcessor
@@ -66,6 +59,7 @@ import com.google.mlkit.vision.text.devanagari.DevanagariTextRecognizerOptions
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import java.io.File
 import java.util.ArrayList
 
 /** Live preview demo app for ML Kit APIs using CameraX. */
@@ -74,6 +68,7 @@ import java.util.ArrayList
 class CameraXLivePreviewActivity :
   AppCompatActivity(), OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
+  // file path to store video
   private var previewView: PreviewView? = null
   private var graphicOverlay: GraphicOverlay? = null
   private var cameraProvider: ProcessCameraProvider? = null
@@ -140,6 +135,16 @@ class CameraXLivePreviewActivity :
         }
       )
 
+    // Button for recording reps
+    val repRecordButton : Button = findViewById<Button>(R.id.repRecordButton)
+    // Sets up button to do stuff
+    repRecordButton.setOnClickListener{
+      //val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+      if (repRecordButton.isPressed) {
+        captureVideo()
+      }
+    }
+
     val settingsButton = findViewById<ImageView>(R.id.settings_button)
     settingsButton.setOnClickListener {
       val intent = Intent(applicationContext, SettingsActivity::class.java)
@@ -147,6 +152,38 @@ class CameraXLivePreviewActivity :
       startActivity(intent)
     }
   }
+
+  /**
+   * fun to record rep
+   */
+  fun captureVideo() {
+    this.onPause();
+    println("BEFORE INTENT")
+    val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+    println("AFTER INTENT")
+    startActivityForResult(intent, VID_CAP_REQUEST)
+    println("AFTER startActivityForResult")
+  }
+
+  /**
+   * method runs after video is returned
+   * runs python script on vid (IN THEORY)
+   */
+   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (resultCode == RESULT_CANCELED) {
+      Log.i("Result", "RESULT CANCELED")
+    } else if (resultCode == RESULT_OK) {
+      Log.i("Result", "RESULT OK")
+      var vidLocation = data?.data
+      println("VID LOCATION: " + vidLocation)
+    } else {
+      Log.i("NOPE", "NOOOOPE")
+    }
+   }
+
 
   override fun onSaveInstanceState(bundle: Bundle) {
     super.onSaveInstanceState(bundle)
@@ -198,6 +235,7 @@ class CameraXLivePreviewActivity :
 
   public override fun onResume() {
     super.onResume()
+    print("ON RESUME!!!!!")
     bindAllCameraUseCases()
   }
 
@@ -415,7 +453,7 @@ class CameraXLivePreviewActivity :
     private const val POSE_DETECTION = "Pose Detection"
     private const val SELFIE_SEGMENTATION = "Selfie Segmentation"
     private const val FACE_MESH_DETECTION = "Face Mesh Detection (Beta)";
-
     private const val STATE_SELECTED_MODEL = "selected_model"
+    private const val VID_CAP_REQUEST = 1 // code for rep recording
   }
 }
