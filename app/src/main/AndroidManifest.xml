@@ -96,6 +96,7 @@
         <activity
             android:name=".kotlin.CameraXSourceDemoActivity"
             android:exported="false"
+            android:noHistory="false"
             android:theme="@style/AppTheme">
         </activity>
 

@@ -1,0 +1,2 @@
+ninja: Entering directory `C:\Users\Charlie\RepRecognitionStuff\vision-quickstart\OpenCV\.cxx\Debug\354z2613\x86'
+ninja: no work to do.

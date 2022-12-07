@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ML_Kit_Vision_Quickstart.iml" filepath="$PROJECT_DIR$/.idea/modules/ML_Kit_Vision_Quickstart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.main.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenCV/ML_Kit_Vision_Quickstart.OpenCV.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ML_Kit_Vision_Quickstart.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ML_Kit_Vision_Quickstart.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ML_Kit_Vision_Quickstart.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ML_Kit_Vision_Quickstart.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ML_Kit_Vision_Quickstart.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ML_Kit_Vision_Quickstart.app.main.iml" />

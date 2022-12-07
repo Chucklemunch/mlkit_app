@@ -1,0 +1,3 @@
+C:/Users/Charlie/RepRecognitionStuff/vision-quickstart/OpenCV/.cxx/Debug/354z2613/x86/CMakeFiles/opencv_jni_shared.dir
+C:/Users/Charlie/RepRecognitionStuff/vision-quickstart/OpenCV/.cxx/Debug/354z2613/x86/CMakeFiles/edit_cache.dir
+C:/Users/Charlie/RepRecognitionStuff/vision-quickstart/OpenCV/.cxx/Debug/354z2613/x86/CMakeFiles/rebuild_cache.dir

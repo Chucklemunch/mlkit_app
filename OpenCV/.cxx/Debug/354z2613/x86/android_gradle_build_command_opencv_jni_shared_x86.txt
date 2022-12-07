@@ -1,0 +1,7 @@
+Executable : C:\Users\Charlie\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
+arguments : 
+-C
+C:\Users\Charlie\RepRecognitionStuff\vision-quickstart\OpenCV\.cxx\Debug\354z2613\x86
+opencv_jni_shared
+jvmArgs : 
+

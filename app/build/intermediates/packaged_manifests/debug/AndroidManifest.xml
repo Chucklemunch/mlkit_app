@@ -13,7 +13,7 @@
     APIs.
     -->
     <uses-sdk
-        android:minSdkVersion="19"
+        android:minSdkVersion="21"
         android:targetSdkVersion="31" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -106,6 +106,7 @@
         <activity
             android:name="com.google.mlkit.vision.demo.kotlin.CameraXSourceDemoActivity"
             android:exported="false"
+            android:noHistory="false"
             android:theme="@style/AppTheme" >
         </activity>
         <activity

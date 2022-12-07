@@ -68,7 +68,6 @@ import java.util.ArrayList
 class CameraXLivePreviewActivity :
   AppCompatActivity(), OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
-  // file path to store video
   private var previewView: PreviewView? = null
   private var graphicOverlay: GraphicOverlay? = null
   private var cameraProvider: ProcessCameraProvider? = null
@@ -139,7 +138,6 @@ class CameraXLivePreviewActivity :
     val repRecordButton : Button = findViewById<Button>(R.id.repRecordButton)
     // Sets up button to do stuff
     repRecordButton.setOnClickListener{
-      //val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
       if (repRecordButton.isPressed) {
         captureVideo()
       }
