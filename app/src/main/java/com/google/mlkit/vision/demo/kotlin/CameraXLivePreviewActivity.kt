@@ -16,6 +16,7 @@
 
 package com.google.mlkit.vision.demo.kotlin
 
+import com.google.mlkit.vision.demo.RepLearner
 import android.content.Intent
 import android.graphics.Camera
 import android.hardware.camera2.CameraCaptureSession
@@ -61,6 +62,7 @@ import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.File
 import java.util.ArrayList
+import java.util.*
 
 /** Live preview demo app for ML Kit APIs using CameraX. */
 @KeepName
@@ -171,15 +173,26 @@ class CameraXLivePreviewActivity :
    */
    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
+    var vidUri = data?.data
+    val vidLocation: File;
     if (resultCode == RESULT_CANCELED) {
       Log.i("Result", "RESULT CANCELED")
+      return;
     } else if (resultCode == RESULT_OK) {
       Log.i("Result", "RESULT OK")
-      var vidLocation = data?.data
-      println("VID LOCATION: " + vidLocation)
+      vidUri = data?.data // TODO remove if unnecessary
+      val filesDir = applicationContext.externalCacheDir //filesDir?
+      println("VID URI: " + vidUri)
+
     } else {
       Log.i("NOPE", "NOOOOPE")
+      return;
     }
+
+    // OPENCV STUFF
+    val repLearner = RepLearner(vidUri, filesDir.toString())
+
+    //println(repLearner.checkpoints)
    }
 
 
