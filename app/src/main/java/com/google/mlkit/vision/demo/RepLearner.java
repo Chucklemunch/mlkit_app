@@ -24,14 +24,12 @@ public class RepLearner {
     String vidLocation; // URI of rep recording
     Double[][] checkpoints; // Array of rep checkpoints
 
-    public RepLearner (Uri uri, String filesDir) {//TODO fix video retrieval
-
+    public RepLearner (Uri uri, String filesDir, String fileName) {//TODO fix video retrieval
         this.vidUri = uri.toString();
-        this.vidLocation = uri.getPath();
+        this.vidLocation = fileName;
         if (this.vidLocation != null) {
             System.out.println("VID LOCATION NOT NULL");
-            System.out.println("uri.toString() -> : " + vidUri);
-            System.out.println("uri.getPath() -> : " + vidLocation);
+            System.out.println("fileName -> : " + vidLocation);
         }
         this.checkpoints = getCheckpoints();
     }
@@ -41,11 +39,11 @@ public class RepLearner {
         double fps = 0;
         Size vidSize = null;
         // Load Rep Vid
-        VideoCapture repVid = new VideoCapture(this.vidLocation);
-
-        repVid.open(this.vidLocation); // TODO figure out if this loads
+        VideoCapture repVid = new VideoCapture(vidLocation); // //TODO prob creating vidcap
+        /*boolean isVidOpened = repVid.open(vidLocation); //TODO problem opening file
+        System.out.println(isVidOpened);
         // Checks if video is successfully opened
-        if (repVid.isOpened()) { // Gets video metadata
+        if (isVidOpened) { // Gets video metadata
             System.out.println("VIDEO OPENED!!!");
             frmCount = repVid.get(Videoio.CAP_PROP_FRAME_COUNT);
             fps = repVid.get(Videoio.CAP_PROP_FPS);
@@ -58,7 +56,7 @@ public class RepLearner {
             System.out.println("VideoWriter: " + vidOutput);
         } else {
             System.out.println("Problem opening video!!");
-        }
+        }*/
 
 
         return this.checkpoints;

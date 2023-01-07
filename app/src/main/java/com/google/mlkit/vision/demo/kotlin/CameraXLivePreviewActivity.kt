@@ -24,6 +24,7 @@ import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
@@ -35,6 +36,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.annotation.KeepName
@@ -60,6 +62,7 @@ import com.google.mlkit.vision.text.devanagari.DevanagariTextRecognizerOptions
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import org.opencv.android.OpenCVLoader
 import java.io.File
 import java.util.ArrayList
 import java.util.*
@@ -69,6 +72,8 @@ import java.util.*
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 class CameraXLivePreviewActivity :
   AppCompatActivity(), OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+
+  var vidLocation: File? = null
 
   private var previewView: PreviewView? = null
   private var graphicOverlay: GraphicOverlay? = null
@@ -83,6 +88,15 @@ class CameraXLivePreviewActivity :
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+      if(OpenCVLoader.initDebug()){
+
+        Log.d(TAG, "opencv loaded");
+
+      } else{
+
+        Log.d(TAG, "opencv not loaded");
+
+      }
     Log.d(TAG, "onCreate")
     if (savedInstanceState != null) {
       selectedModel = savedInstanceState.getString(STATE_SELECTED_MODEL, OBJECT_DETECTION)
@@ -157,16 +171,26 @@ class CameraXLivePreviewActivity :
    * fun to record rep
    */
   fun captureVideo() {
-    this.onPause();
-    println("BEFORE INTENT")
-    val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-    println("AFTER INTENT")
-    startActivityForResult(intent, VID_CAP_REQUEST)
-    println("AFTER startActivityForResult")
+    this.onPause()
+    vidLocation = createVidFile()
+    if (vidLocation != null) {
+      println("BEFORE INTENT")
+      val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+      intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+      intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+      intent.putExtra(MediaStore.EXTRA_OUTPUT, intent.data)
+      println("AFTER INTENT")
+      startActivityForResult(intent, VID_CAP_REQUEST)
+      println("AFTER startActivityForResult")
+    } else {println("vidFile not created")}
   }
 
+  fun createVidFile(): File {
+    println("in createVidFile()")
+    val fileName = "repVideo"
+    val storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES)
+    return File.createTempFile(fileName, ".mp4", storageDir)
+  }
   /**
    * method runs after video is returned
    * runs python script on vid (IN THEORY)
@@ -174,15 +198,15 @@ class CameraXLivePreviewActivity :
    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     var vidUri = data?.data
-    val vidLocation: File;
     if (resultCode == RESULT_CANCELED) {
       Log.i("Result", "RESULT CANCELED")
       return;
     } else if (resultCode == RESULT_OK) {
       Log.i("Result", "RESULT OK")
       vidUri = data?.data // TODO remove if unnecessary
-      val filesDir = applicationContext.externalCacheDir //filesDir?
+      val filesDir = applicationContext.filesDir
       println("VID URI: " + vidUri)
+      println("filesDir" + filesDir)
 
     } else {
       Log.i("NOPE", "NOOOOPE")
@@ -190,7 +214,7 @@ class CameraXLivePreviewActivity :
     }
 
     // OPENCV STUFF
-    val repLearner = RepLearner(vidUri, filesDir.toString())
+    val repLearner = RepLearner(vidUri, filesDir.toString(), vidLocation.toString())
 
     //println(repLearner.checkpoints)
    }
